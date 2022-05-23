@@ -7,7 +7,7 @@ namespace WSO
     /// <summary>
     /// Windows service data model.
     /// </summary>
-    public class ServiceModel
+    internal class ServiceModel
     {
         private readonly ServiceController _service;
 

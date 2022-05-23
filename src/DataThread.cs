@@ -9,7 +9,7 @@ namespace WSO
     /// <summary>
     /// Implementation of the thread to obtain Windows services data.
     /// </summary>
-    public class ServiceDataThread
+    internal class ServiceDataThread
     {
         public delegate void ServiceDataThreadExceptionHandler(Exception exception, out bool handled);
 
@@ -180,7 +180,7 @@ namespace WSO
     /// <summary>
     /// Services data exception.
     /// </summary>
-    public class ServiceDataThreadException : Exception
+    internal class ServiceDataThreadException : Exception
     {
         public bool Skip { get; set; }
 

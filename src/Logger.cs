@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace WSO
 {
-    public static class Logger
+    internal static class Logger
     {
         private static readonly object _locker = new();
 

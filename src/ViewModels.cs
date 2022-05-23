@@ -10,7 +10,7 @@ namespace WSO
     /// <summary>
     /// Base class to implement MVVM pattern.
     /// </summary>
-    public class Notifier : INotifyPropertyChanged
+    internal class Notifier : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
@@ -23,7 +23,7 @@ namespace WSO
     /// <summary>
     /// Main window view model.
     /// </summary>
-    public class ViewModel : Notifier
+    internal class ViewModel : Notifier
     {
         protected IList<ServiceViewModel> _services;
         public IList<ServiceViewModel> Services
@@ -41,7 +41,7 @@ namespace WSO
     /// <summary>
     /// Windows service view model.
     /// </summary>
-    public class ServiceViewModel : Notifier
+    internal class ServiceViewModel : Notifier
     {
         private ServiceModel _model;
 
