@@ -92,7 +92,6 @@ namespace WSO
                 additionalInfo = GetAdditionalInfo(ex);
                 if (!string.IsNullOrEmpty(additionalInfo))
                 {
-                    builder.AppendLine();
                     builder.AppendLine(additionalInfo);
                 }
 
@@ -117,13 +116,15 @@ namespace WSO
             string additionalInfo = GetAdditionalInfo(ex);
             if (!string.IsNullOrEmpty(additionalInfo))
             {
-                builder.AppendLine();
                 builder.AppendLine(additionalInfo);
             }
 
             while (ex.InnerException != null)
             {
-                builder.AppendLine(ex.InnerException.Message);
+                if (!string.IsNullOrEmpty(ex.InnerException.Message))
+                {
+                    builder.AppendLine(ex.InnerException.Message);
+                }
 
                 additionalInfo = GetAdditionalInfo(ex.InnerException);
                 if (!string.IsNullOrEmpty(additionalInfo))
@@ -164,7 +165,7 @@ namespace WSO
                         builder.AppendLine("Additional info:");
                     }
 
-                    builder.AppendLine($"{key}: {ex.Data[key]}");
+                    builder.Append($"{key}: {ex.Data[key]}");
                 }
             }
 
