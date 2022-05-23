@@ -104,7 +104,7 @@ namespace WSO
 
                     try
                     {
-                        using RegistryKey key = null;// localKey.OpenSubKey(keyName);
+                        using RegistryKey key = localKey.OpenSubKey(keyName);
                         if (key == null)
                         {
                             HandleServiceDataException(null, keyName);
