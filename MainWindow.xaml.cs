@@ -61,12 +61,6 @@ namespace WSO
             handled = true;
         }
 
-        private void StartStop_Click(object sender, RoutedEventArgs e)
-        {
-            ServiceViewModel serviceVM = (sender as FrameworkElement).DataContext as ServiceViewModel;
-            serviceVM.ToggleService();
-        }
-
         private async void OnServicesDataRecieved(IList<ServiceModel> services)
         {
             if (services == null)

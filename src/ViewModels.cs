@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Reflection;
+using System.Windows.Input;
+using System.ComponentModel;
 using System.Globalization;
 using System.ServiceProcess;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
 
 namespace WSO
 {
@@ -47,6 +48,7 @@ namespace WSO
 
         public ServiceViewModel(ServiceModel model)
         {
+            StartStopCommand = new StartStopCommand(this);
             SetModel(model);
         }
 
@@ -62,26 +64,6 @@ namespace WSO
             NotifyPropertyChanged(nameof(IsStartStopEnabled));
         }
 
-        public async void ToggleService()
-        {
-            IsProcessing = true;
-
-            Task task = _model.ToggleService();
-            if (task != null)
-            {
-                await task;
-
-                if (task.Exception != null)
-                {
-                    Logger.ShowException(task.Exception, "Could not toggle the service.");
-                }
-            }
-
-            IsProcessing = false;
-
-            SetModel(_model);
-        }
-
         public string Name => _model.Name;
 
         public string DisplayName => _model.DisplayName;
@@ -95,7 +77,7 @@ namespace WSO
         public bool IsStartStopEnabled => !IsProcessing;
 
         private bool _isProcessing;
-        protected bool IsProcessing
+        public bool IsProcessing
         {
             get => _isProcessing;
 
@@ -105,6 +87,28 @@ namespace WSO
                 NotifyPropertyChanged(nameof(StartStop));
                 NotifyPropertyChanged(nameof(IsStartStopEnabled));
             }
+        }
+
+        public ICommand StartStopCommand { get; private set; }
+
+        public async void ToggleService()
+        {
+            IsProcessing = true;
+
+            var task = _model.ToggleService();
+            if (task != null)
+            {
+                await task;
+
+                if (task.Exception != null)
+                {
+                    Logger.ShowException(task.Exception, "Could not toggle the service.");
+                }
+            }
+
+            IsProcessing = false;
+
+            SetModel(_model);
         }
 
         private string GetTranslatedAccount()
@@ -123,6 +127,31 @@ namespace WSO
                 "LOCALSYSTEM" => "Local System",
                 _ => _model.Account,
             };
+        }
+    }
+
+    internal class StartStopCommand: ICommand
+    {
+        public event EventHandler CanExecuteChanged = delegate { };
+
+        private readonly ServiceViewModel _viewModel;
+
+        public StartStopCommand(ServiceViewModel vm)
+        {
+            _viewModel = vm;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            if (_viewModel != null && CanExecute(parameter))
+            {
+                _viewModel.ToggleService();
+            }
         }
     }
 }

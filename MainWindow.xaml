@@ -17,7 +17,7 @@
             <DataGrid.Resources>
                 <ContextMenu x:Key="ServiceContextMenu">
                     <ContextMenu.Items>
-                        <MenuItem Header="{Binding StartStop}" Click="StartStop_Click" IsEnabled="{Binding IsStartStopEnabled}" />
+                        <MenuItem Header="{Binding StartStop}" Command="{Binding StartStopCommand, ConverterParameter=DataContext}" IsEnabled="{Binding IsStartStopEnabled}" />
                     </ContextMenu.Items>
                 </ContextMenu>
             </DataGrid.Resources>
