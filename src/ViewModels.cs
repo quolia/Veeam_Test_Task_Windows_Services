@@ -48,7 +48,7 @@ namespace WSO
 
         public ServiceViewModel(ServiceModel model)
         {
-            StartStopCommand = new StartStopCommand(this);
+            StartStopCommand = new StartStopCommandHandler(this);
             SetModel(model);
         }
 
@@ -128,29 +128,26 @@ namespace WSO
                 _ => _model.Account,
             };
         }
-    }
 
-    internal class StartStopCommand: ICommand
-    {
-        public event EventHandler CanExecuteChanged = delegate { };
-
-        private readonly ServiceViewModel _viewModel;
-
-        public StartStopCommand(ServiceViewModel vm)
+        internal class StartStopCommandHandler : ICommand
         {
-            _viewModel = vm;
-        }
+            public event EventHandler CanExecuteChanged = delegate { };
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+            private readonly ServiceViewModel _viewModel;
 
-        public void Execute(object parameter)
-        {
-            if (_viewModel != null && CanExecute(parameter))
+            public StartStopCommandHandler(ServiceViewModel vm)
             {
-                _viewModel.ToggleService();
+                _viewModel = vm;
+            }
+
+            public bool CanExecute(object parameter) => true;
+
+            public void Execute(object parameter)
+            {
+                if (_viewModel != null && CanExecute(parameter))
+                {
+                    _viewModel.ToggleService();
+                }
             }
         }
     }
